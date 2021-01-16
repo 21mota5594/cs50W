@@ -1,0 +1,48 @@
+.header {
+    text-align: right;
+    margin: 10px;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.grid {
+    display: grid;
+    width: 100vw;
+    height: 100vh;
+    grid-template-columns: 1fr;
+    grid-template-rows: 10% 50% max-content max-content;
+    grid-template-areas: 
+    "header"
+    "logo"
+    "searchbar"
+    "buttons";
+}
+.rLinks {
+    margin: 5px;
+    padding: 10px;
+    color: grey;
+    text-decoration: none;
+}
+
+a.rLinks:hover {
+    text-decoration: underline;
+    color: grey;
+}
+
+.logo {
+    padding-top: 10%;
+    padding-left: 30%;
+    padding-right: 30%;
+}
+
+.searchbar {
+    color: none;
+    padding-right: 40%;
+    padding-left: 40%;
+}
+
+.buttons {
+    margin-top: 20px;
+    padding-left: 35%;
+    padding-right: 30%;
+}
