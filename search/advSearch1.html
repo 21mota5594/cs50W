@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Search</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="advSearch.css">
+</head>
+
+<body>
+    <header>
+        <img id="logo" src="https://i.imgur.com/H75mFpM.png" alt="Google logo">
+        <a class="rLinks" href="imgsearch1.html">Image Search</a>
+        <a class="rLinks" href="advsearch1.html">Advanced Search</a>
+    </header>
+    <main>
+        <div id="appBar">
+            <label style="margin-left: 10px; color: #D93025;">Advanced Search</label>
+        </div>
+
+        <div id="titleSeparator"></div>
+
+        <div id="form">
+            <form action="https://google.com/search" method="GET">
+                <div id="formTitle">Find pages with...</div>
+
+                <div class="inputPoint">
+                    <label for="q">all these words:</label>
+                    <input type="text" name="as_q" id="q">
+                </div>
+
+
+                <div class="inputPoint">
+                    <label for="exact">this exact word or phrase:</label>
+                    <input type="text" name="as_epq" id="exact">
+                </div>
+
+                <div class="inputPoint">
+                    <label for="any">any of these words:</label>
+                    <input type="text" name="as_oq" id="any">
+                </div>
+                
+                <div class="inputPoint">
+                    <label for="none">none of these words:</label>
+                    <input type="text" name="as_eq" id="none">
+                </div>
+
+                
+
+                <input type="submit" value="Advanced Search">
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>

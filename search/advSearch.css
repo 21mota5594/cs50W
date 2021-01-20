@@ -1,0 +1,113 @@
+header {
+    text-align: right;
+    padding: 10px;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-bottom: 20px;
+    font-size: 13px;
+    background-color: #F1F1F1;
+}
+
+
+.rLinks {
+    margin: 5px;
+    padding: 10px;
+    text-decoration: none;
+    color: #000000DE;
+}
+
+a.rLinks:hover {
+    text-decoration: underline;
+    color: #000000DE;
+}
+
+#logo {
+    width: 92px;
+    position: relative;
+    float: left;
+    left: 0;
+}
+
+#appBar {
+    font-size: 20px;
+    margin: 25px 35px 25px 35px;
+}
+
+#titleSeparator {
+    border-bottom-width: 1px;
+    border-bottom-style: solid; 
+    border-bottom-color: rgb(235, 235, 235);
+}
+
+#form {
+    max-width: 1140px;
+    min-width: 200px;
+    width: 96%;
+    margin: 40px 2% 0px 45px;
+    color: #222222;
+    font-size: 13px;
+}
+
+#formTitle {
+    color: #333333;
+    font-size: 16px;
+    font-family: arial;
+    margin-bottom: 20px;
+}
+
+
+.inputPoint {
+    float: left;
+    height: 42px;
+    width: 100%;
+}
+
+label {
+    font-family: arial;
+    margin-top: 5px;
+}
+
+input[type="text"]
+{
+    position: absolute;
+    left: 20%;
+    height: 29px;
+    width: 50%;
+    min-width: 167px;
+    padding: 1px 8px 1px 8px;
+    border-radius: 1px;
+    border-top-color: rgb(192, 192, 192);
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-bottom-color: rgb(217, 217, 217);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: rgb(217, 217, 217);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color: rgb(217, 217, 217);
+}
+
+input:focus {
+    outline: none !important;
+    border: 1px solid #5E9ED6;
+    background-color: white;
+    box-shadow: inset 0px 2px 3px -1px #888888
+}
+
+input[type=submit] {
+    position: fixed;
+    top: 420px;
+    left: 60%;
+    height: 30px;
+    width: 10%;
+    background-color: #4d90fe;
+    box-shadow: none;
+    color: white;
+    border: 1px solid #3079ED;
+    background-image: linear-gradient(top, #4D90FE, #4787ED);
+    font-weight: bold;
+    font-size: 11px;
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Search</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="index1.css">
+</head>
+
+<body>
+    <header>
+        <a class="rLinks" href="imgsearch1.html">Image Search</a>
+        <a class="rLinks" href="advsearch1.html">Advanced Search</a>
+    </header>
+    <main>
+        <div class="separatorOne">
+        </div>
+        <img id="logo" class="center" src="https://i.imgur.com/H75mFpM.png" alt="Google logo">
+        <div class="separatorTwo">
+        </div>
+
+        <form action="https://google.com/search">
+            <div class="searchDiv">
+                <svg fill="#9aa0a6" id="searchIcon" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                        d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
+                    </path>
+                </svg>
+                <input class="center" id="searchbar" type="text" name="q">
+            </div>
+            <div id="separatorThree"></div>
+            <div id="buttonsDiv">
+                <input class="buttons" type="submit" value="Google Search">
+                <input style="margin-left: 8px" class="buttons" type="submit" value="I'm Feeling Lucky" btnI="I'm Feeling Lucky" name="btnI">
+            </div>
+        </form>
+    </main>
+</body>
+
+</html>
