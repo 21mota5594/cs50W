@@ -1,10 +1,20 @@
 {% extends "encyclopedia/layout.html" %}
 
 {% block title %}
-    {{ title }}
+{{ title }}
 {% endblock %}
 
 
 {% block body %}
-    {{ body }}
+    {% if message %}
+        <div class="alert alert-{{ type }} col-md-10" role="alert">
+            <strong>{{ alertTitle }}</strong> {{ message }}
+        </div>
+    {% endif %}
+    
+    <a href="{% url 'edit' title %}"> Edit Page</a>
+    {% autoescape off %}
+        {{ body }}
+    {% endautoescape %}
+
 {% endblock %}
