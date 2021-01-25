@@ -1,0 +1,23 @@
+{% extends "encyclopedia/layout.html" %}
+
+
+{% block title %}
+    Encyclopedia
+{% endblock %}
+
+{% block body %}
+    {% if message %}
+        <div class="alert alert-danger col-md-10" role="alert">
+            <strong>Error!</strong> {{ message }}
+        </div>
+    {% endif %}
+
+    <h1>All Pages</h1>
+
+    <ul>
+        {% for entry in entries %}
+            <li> <a href="{% url 'pages' entry %}">{{ entry }}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
