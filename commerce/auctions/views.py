@@ -160,4 +160,14 @@ def categories(request):
     categories = Listing.objects.values_list('category', flat=True)
     categories = list(set(categories))
 
+    return render(request, 'auctions/categories.html', {
+        "categories": categories
+    })
 
+def category(request, category):
+    listings = Listing.objects.all().filter(category=category)
+
+    return render(request, 'auctions/category.html', {
+        "category": category,
+        "listings": listings
+    })

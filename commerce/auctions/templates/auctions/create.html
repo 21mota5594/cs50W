@@ -1,11 +1,9 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <title>Create</title>
-
     <h2>Create New Listing</h2>
 
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST">
         {% csrf_token %}
         <label for="title">Title: </label> 
         <input type="text" name="title"> <br>

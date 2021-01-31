@@ -41,6 +41,9 @@
                     <a class="nav-link" href="{% url 'create' %}">Create New Listing</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'categories' %}">Categories</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'watchlist' user.id %}">Watchlist</a>
                 </li>
             {% else %}
