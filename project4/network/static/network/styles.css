@@ -1,0 +1,68 @@
+
+/* layout style */
+.body {
+    width: 70%;
+    margin: auto;
+}
+#newPostContainer {
+    border: thin solid gray;
+    margin: 20px;
+    padding: 20px;
+}
+
+/* index style */
+#likeInfo {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+#editForm {
+    display: none;
+}
+
+#postTextArea {
+    display: inline-block;
+    height: auto;
+}
+
+#saveButton {
+    display: none;
+}
+
+/* new post style */
+#newPostButton {
+ margin: auto;
+ width: 30%;
+}
+
+#newPostButton:hover {
+    transform: scale(1.05);
+}
+
+#postSubmit {
+    width: 98.75px;
+}
+
+#hideNew {
+    margin-top: 15px;
+}
+
+#post {
+    margin: 20px;
+    padding-top: 0px;
+}
+
+/* user profile style */
+#profileCard {
+    width: 70%;
+    margin: auto;
+    align-content: center;
+}
+
+#profileUser {
+    margin: auto;
+}
+
+#followButton {
+    margin-left: 10px;
+}

@@ -1,0 +1,22 @@
+{% extends "network/index.html" %}
+{% load static %}
+
+{% block profile %}
+    <div id="profileCard" class="card">
+        <div class="card-body">
+            <h2 id="profileUser" class="card-title">{{ profileUser.username }}</h2>
+            <hr>
+            <div class="card-text">
+            <span><strong>{{ followersNum }} </strong></span><span class="text-muted">followers</span>
+            <span><strong>{{ followingNum }} </strong></span><span class="text-muted">following</span>
+            {% ifnotequal profileUser request.user %}
+            <button id="followButton" class="btn btn-primary">{% if request.user in profileFollowers %}Unfollow{% else %}Follow{% endif %}</button>
+            {% endifnotequal%}
+        </div> 
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'network/profile.js' %}"></script>
+{% endblock %}

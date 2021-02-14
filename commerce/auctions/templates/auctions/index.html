@@ -7,7 +7,7 @@
     {% for listing in listings %}
     <div class="card col-3 shadow-sm p-3 mb-5 bg-white rounded " style="margin:20px;">
     <a href="{% url 'listing' listing.id %}">
-        <img class="card-img-top" style="width: 300px;" src="{{ listing.img }}">
+        <img class="card-img-top" style="width: 300px; height: 200px;" src="{{ listing.img }}">
         <h4 class="card-title">{{ listing.title }}</h4>
         <span class="card-text">{{ listing.category }}</span><br>
         <span class="card-text">Starting Bid: ${{ listing.startBid }}</span><br>
