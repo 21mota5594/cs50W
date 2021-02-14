@@ -80,19 +80,15 @@ def register(request):
 
 @login_required
 def post(request):
-    # Composing new post must be via POST
-    if request.method != "POST":
-        return JsonResponse({"error": "POST request required."}, status=400)
+    if request.method == "POST":
 
-    data = json.loads(request.body)
-    post = data.get("post")
-    if post == [""]:
-        return JsonResponse({"error": "At least one recipient required."}, status=400)
+        text = request.POST.get("userPost")
+        post = Post(post=text, poster=request.user, likes=0)
+        post.save()
+        
 
-    post = Post(post=post, poster=request.user, likes=0)
-    post.save()
-
-    return JsonResponse({"message": "Post published successfully."}, status=201)
+        messages.success(request, 'Message posted successfully')
+        return HttpResponseRedirect(reverse("index"))
 
 @login_required
 def profile(request, username):
@@ -142,24 +138,29 @@ def follow(request, username):
 
 @login_required
 def edit(request):
-    if request.method != "PUT":
-        return JsonResponse({"error": "PUT request required"}, status=400)
-    
-    data = json.loads(request.body)
-    oldText = data.get("oldText")
-    newText = data.get("newText")
+    if request.method == "POST":
+        postID = request.POST.get("postID")
+        postEdit = request.POST.get("postEdit")
 
-    try:
-        post = Post.objects.get(post=oldText)
-    except Post.DoesNotExist:
-        messages.error(request, "Post does not exist.")
+        try:
+            post = Post.objects.get(pk=postID)
+        except Post.DoesNotExist:
+            messages.error(request, "Post does not exist.")
+            return HttpResponseRedirect(reverse("index"))
+        
+        if request.user != post.poster:
+            messages.error(request, "User missing authentication.")
+            return HttpResponseRedirect(reverse("index"))
+        post.post = postEdit
+        post.save()
+
+        messages.success(request, 'Post successfully edited')
         return HttpResponseRedirect(reverse("index"))
-    
-    if request.user != post.poster:
-        return JsonResponse({"error": "User missing required authentication."})
-    post.post = newText
-    post.save()
 
-    return JsonResponse({"success": "Post edited succesfully."})
+@login_required
+def following(request):
+    following = request.user.following.all()
+    posts = []
+    for user in following:
 
         

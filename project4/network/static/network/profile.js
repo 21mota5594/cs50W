@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     // profile page
     document.querySelector('#followButton').addEventListener('click', () => follow());
+    document.querySelector('#editButton').addEventListener('click', () => editPost());
+    document.querySelector('#editForm').onsubmit = saveEdit;
 })
 
 function follow() {
