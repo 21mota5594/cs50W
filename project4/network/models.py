@@ -10,7 +10,7 @@ class Post(models.Model):
     post = models.CharField(max_length=1000)
     poster = models.ForeignKey(User, on_delete=models.CASCADE, related_name="poster")
     likes = models.IntegerField(default=0)
-    likers = models.ForeignKey(User, on_delete=models.CASCADE, related_name="likers", blank=True, null=True)
+    likers = models.ManyToManyField(User, related_name="likers")
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def serialize(self):

@@ -20,8 +20,6 @@ def index(request):
     pageNum = request.GET.get('page')
     page_obj = paginator.get_page(pageNum)
 
-    user = User.objects.get(username='joss')
-    followers = user.followers.all()
     return render(request, "network/index.html", {
         "page_obj": page_obj
     })
@@ -159,8 +157,35 @@ def edit(request):
 
 @login_required
 def following(request):
-    following = request.user.following.all()
-    posts = []
-    for user in following:
+    following = request.user.following.all().values('followingUserId')
+    userQuery = User.objects.filter(pk__in=following)
+    posts = Post.objects.filter(poster__in=following)
+    paginator = Paginator(posts, 5)
 
+    pageNum = request.GET.get('page')
+    page_obj = paginator.get_page(pageNum)
+
+    return render(request, "network/index.html", {
+        "page_obj": page_obj
+    })
+
+@login_required
+@csrf_exempt
+def like(request):
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        action = data.get("action")
+        id = data.get("postID")
         
+        post = Post.objects.get(pk=id)
+        if action == True:
+            post.likers.add(request.user)
+            post.likes += 1
+            post.save()
+        else:
+            post.likers.remove(request.user)
+            post.likes -= 1
+            post.save()
+        return JsonResponse({"message": "Like action complete"}, status=201)
+    else:
+        return JsonResponse({"error": "PUT request required"}, status=400)

@@ -2,73 +2,135 @@
 {% load static %}
 
 {% block body %}
-    {% if profileUser %}
-        {% block profile %}
-        {% endblock %}
-    {% else %}
-        {% if user.is_authenticated %}
-        <div id="newPostContainer">
-            <button id="newPostButton" class="btn btn-primary">New Post</button>
-            <div id="newPost">
-                <form id="postForm" method="POST" action="{% url 'post' %}">
-                    {% csrf_token %}
-                    <div class="form-group">
-                    <label for="post">New Post</label>
-                    <input type="textarea" name="userPost" id="post" class="form-control" aria-describedby="postDesc">
-                    <small id="postDesc" class="form-text text-muted">Post for everyone to see!</small>
-                    </div>
-                    <input type="submit" class="btn btn-primary" id="postSubmit" value="Post">
-                </form>
-                <button id="hideNew" class="btn btn-secondary">Cancel</button>
+{% if profileUser %}
+{% block profile %}
+{% endblock %}
+{% else %}
+{% if user.is_authenticated %}
+<div id="newPostContainer">
+    <button id="newPostButton" class="btn btn-primary">New Post</button>
+    <div id="newPost">
+        <form id="postForm" method="POST" action="{% url 'post' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="post">New Post</label>
+                <input type="textarea" name="userPost" id="post" class="form-control" aria-describedby="postDesc">
+                <small id="postDesc" class="form-text text-muted">Post for everyone to see!</small>
             </div>
-        </div>
+            <input type="submit" class="btn btn-primary" id="postSubmit" value="Post">
+        </form>
+        <button id="hideNew" class="btn btn-secondary">Cancel</button>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+
+{% for post in page_obj %}
+<div id="post" class="card">
+    <div class="card-body">
+        <a id="postUser" href="{% url 'profile' post.poster %}">
+            <h5 class="card-title">{{ post.poster.username }}</h5>
+        </a>
+        <h6 id="postTime" class="card-subtitle mb-2 text-muted">{{ post.timestamp }}</h6>
+        <p id="postText" class="card-text">{{ post.post }}</p>
+        {% if request.user == post.poster %}
+        <form method="POST" id="editForm" action="{% url 'edit' %}">
+            {% csrf_token %}
+            <textarea name="postEdit" id="postTextArea"></textarea>
+            <input name="postID" type="hidden" value="{{ post.id }}">
+        </form>
         {% endif %}
-    {% endif %}    
+        <div id="{{post.id}}"></div>
+    <script type="text/babel">
+        class Like extends React.Component {
 
-    
+            constructor(props) {
+                super(props);
+                this.state = {
+                    isLiked:{% if request.user in post.likers.all %}true{% else %}false{% endif %},
+                    count: {{ post.likes }}
+                }
+            }
+            render() {
+                const isLiked = this.state.isLiked;
+                let color;
+                if (isLiked) {
+                    color = "red"
+                }
+                else {
+                    color = "#6c757d"
+                }
+                const styles = {
+                    containerStyle: {
+                        color: color
+                    }
+                };
+                const { containerStyle } = styles;
+                return (
+                    <div>
+                        <h6 id="likeInfo" class="card-subtitle mb-2 text-muted"><span id="likeButton" onClick={this.like} class="glyphicon glyphicon-heart" style={containerStyle}></span> {this.state.count}</h6>
+                    </div>
+                );
+            }
 
-    {% for post in page_obj %}
-        <div id="post" class="card">
-            <div class="card-body">
-                <a id="postUser" href="{% url 'profile' post.poster %}"><h5 class="card-title">{{ post.poster.username }}</h5></a>
-                <h6 id="postTime" class="card-subtitle mb-2 text-muted">{{ post.timestamp }}</h6>
-                <p id="postText" class="card-text">{{ post.post }}</p>
-                {% if request.user == post.poster %}
-                <form method="POST" id="editForm" action="{% url 'edit' %}">
-                    {% csrf_token %}
-                    <textarea name="postEdit" id="postTextArea"></textarea>
-                    <input name="postID" type="hidden" value="{{ post.id }}">
-                </form>
-                {% endif %}
-                <i class="fa fa-heart" style="font-size:24px"></i>
-                </span><h6 id="likeInfo" class="card-subtitle mb-2 text-muted"><span class="glyphicon glyphicon-heart"></span> {{ post.likes }}</h6>
-                {% if request.user == post.poster %}
-                <button id="editButton" type="button" class="btn btn-primary btn-sm">Edit</button>
-                <button id="saveButton" form="editForm" type="submit" class="btn btn-primary btn-sm">Save</button>
-                {% endif %}
-              </div>
-        </div>
-    {% endfor %}
+            like = () => {
+                if (this.state.isLiked) {
+                    this.setState(state => ({
+                    count: state.count - 1,
+                    isLiked: false
+                    }));
+                }
+                else {
+                    this.setState(state => ({
+                    count: state.count + 1,
+                    isLiked: true
+                    }));
+                }
+                const request = {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        postID: {{ post.id }},
+                        action: !this.state.isLiked
+                    })
+                };
+                console.log(request);
+                fetch('/like', request)
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                })
+            }
+        }
 
-    <nav aria-label="Page navigation">
-        <ul class="pagination step-links">
-                {% if page_obj.has_previous %}
-                <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a></li>
-                {% endif %}
+        ReactDOM.render(<Like />, document.getElementById("{{post.id}}"))
+    </script>
+        {% if request.user == post.poster %}
+        <button id="editButton" type="button" class="btn btn-primary btn-sm">Edit</button>
+        <button id="saveButton" form="editForm" type="submit" class="btn btn-primary btn-sm">Save</button>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
 
-                <li class="page-item disabled"><span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span></li>
-        
-                {% if page_obj.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a></li>
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
-                {% endif %}
-        </ul>
-    </nav>
+<nav aria-label="Page navigation">
+    <ul class="pagination step-links">
+        {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a></li>
+        {% endif %}
+
+        <li class="page-item disabled"><span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span></li>
+
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+        {% endif %}
+    </ul>
+</nav>
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'network/index.js' %}"></script>
+<script src="{% static 'network/index.js' %}"></script>
 {% endblock %}
