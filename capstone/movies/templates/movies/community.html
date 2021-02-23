@@ -1,0 +1,56 @@
+{% extends 'movies/layout.html' %}
+{% load static %}
+{% block script %}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="{% static 'movies/community.js' %}"></script>
+{% endblock %}
+{% block body %}
+
+{% for user in users %}
+<div class="card text-center">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a id="profile-{{ user.id }}" class="nav-link active profileTab" href="#">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Favorites</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Recommendations</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body userProfile">
+      <h5 class="card-title">{{ user.username }}</h5>
+      <p class="card-text">Favorite movies: {{ user.favorites.all|length }} Recommendations: {% if user.favorites.all|length > 1 %}<i class="fa fa-check-circle" style="color: green;"></i>{% else %}<i class="fa fa-close" style="color: red;"></i>{% endif %}</p>
+    </div>
+
+    <div class="card-body userFavorites">
+        {% for favorite in user.favorites.all %}
+        <span>
+            <div style="display: inline-block;">
+            <img style="height: 100px;" src="{{ favorite.imgUrl }}">
+            <p>{{ favorite.title }}</p>
+            </div>
+        </span>
+        {% endfor %}
+    </div>
+
+    <div class="card-body userRecommended">
+        {% for recommend in user.recommended.all %}
+        <span>
+            <div style="display: inline-block;">
+            <img style="height: 100px;" src="{{ recommend.imgUrl }}">
+            <p>{{ recommend.title }}</p>
+            </div>
+        </span>
+        {% endfor %}
+    </div>
+
+</div>
+{% endfor %}
+
+
+{% endblock %}

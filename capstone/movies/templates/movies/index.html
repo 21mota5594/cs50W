@@ -1,0 +1,63 @@
+{% extends "movies/layout.html" %}
+{% load static %}
+{% block body %}
+<div id="indexTitle">
+  <h1 class="display-1">Pick your favorite movies!</h1>
+</div>
+<div id="favMovies">
+    <h3 class="text-muted" id="movieContainerTitle">Your favorite movies</h3>
+
+    <div class="container-fluid">
+      <div class="row">
+      {% for favorite in favorites %}
+      <div class="col">
+        <div id="movieCard" class="card">
+          <img src="{{ favorite.imgUrl }}" id="favMovieImg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h6 class="card-title">{{ favorite.title }}</h6>
+            <a href="{% url 'removeFavorite' favorite.title %}" class="btn btn-primary">Remove</a>
+          </div>
+        </div>
+        </div>
+        {% endfor %}
+      {% for i in range %}
+          <div class="col">
+            <div id="movieCard" class="card nullCard">
+              <img id="favMovieImg" src="https://image.freepik.com/free-vector/click-movie-logo-vector_18099-258.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Add another of your favorite movies!</h5>
+              </div>
+            </div>
+            </div>
+      {% endfor %}
+      </div>
+</div>
+</div>
+
+<div id="recommendButton">
+  <button type="button" class="btn btn-outline-primary btn-block">I need recommendations!</button>
+</div>
+
+<div id="recommendations">
+    <h3 class="text-muted" id="movieContainerTitle">Your recommendations</h3>
+
+    <div class="container-fluid">
+      <div class="row">
+      {% for i in range %}
+          <div class="col">
+            <div class="card">
+              <img src="https://images.hindustantimes.com/rf/image_size_630x354/HT/p2/2020/07/15/Pictures/_b6b0bf16-c67e-11ea-be81-f7b2e356804f.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{ title }}</h5>
+                <a href="#" class="btn btn-primary">Remove</a>
+              </div>
+            </div>
+            </div>
+      {% endfor %}
+      </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'movies/index.js' %}"></script>
+{% endblock %}

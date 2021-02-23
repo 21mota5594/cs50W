@@ -1,0 +1,33 @@
+{% extends 'movies/layout.html' %}
+{% load static %}
+{% block body %}
+<div id="left">
+    <div>
+    <img class="img-thumbnail" id="movieImg" src="{{ movie.img }}">
+</div>
+<div>
+    {% if request.user.favorites.all|length > 4 %}
+    <button type="button" class="btn btn-outline-primary">Remove a favorite to add another</button>
+    {% else %}
+    <button id="addButton" type="button" class="btn btn-primary">{% if movieObj in request.user.favorites.all %}Add to favorites{% else %}Remove from favorites{% endif %}</button>
+    {% endif %}
+</div>
+</div>
+
+<div id="right">
+    <div id="movieInfo">
+            <h1 id="movieTitle" class="display-2">{{ movie.title }}</h1>
+            <hr>
+            <h3 class="display-4">Starring</h3>
+            
+                    {% for star in movie.stars %}
+                    {{ star }}<br>
+                    {% endfor %}
+                
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'movies/movie.js' %}"></script>
+{% endblock %}
