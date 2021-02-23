@@ -4,53 +4,85 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="{% static 'movies/community.js' %}"></script>
+<link rel="stylesheet" href="{% static 'movies/community.css' %}">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 {% endblock %}
 {% block body %}
 
-{% for user in users %}
-<div class="card text-center">
-    <div class="card-header">
-      <ul class="nav nav-tabs card-header-tabs">
-        <li class="nav-item">
-          <a id="profile-{{ user.id }}" class="nav-link active profileTab" href="#">Profile</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Favorites</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Recommendations</a>
-        </li>
-      </ul>
-    </div>
-    <div class="card-body userProfile">
-      <h5 class="card-title">{{ user.username }}</h5>
-      <p class="card-text">Favorite movies: {{ user.favorites.all|length }} Recommendations: {% if user.favorites.all|length > 1 %}<i class="fa fa-check-circle" style="color: green;"></i>{% else %}<i class="fa fa-close" style="color: red;"></i>{% endif %}</p>
-    </div>
 
-    <div class="card-body userFavorites">
-        {% for favorite in user.favorites.all %}
-        <span>
-            <div style="display: inline-block;">
-            <img style="height: 100px;" src="{{ favorite.imgUrl }}">
-            <p>{{ favorite.title }}</p>
-            </div>
-        </span>
-        {% endfor %}
-    </div>
+<div class="container">
+  {% for user in users %}
+  <div class="row">
+    <div class="col-12">
+      <div class="card mt-3 tab-card">
+        <div class="card-header tab-card-header">
+          <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" onclick="return false" id="one-tab" data-toggle="tab" href="#one{{ user.id }}" role="tab" aria-controls="One" aria-selected="true">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="return false" id="two-tab" data-toggle="tab" href="#two{{ user.id }}" role="tab" aria-controls="Two" aria-selected="false">Favorites</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="return false" id="three-tab" data-toggle="tab" href="#three{{ user.id }}" role="tab" aria-controls="Three" aria-selected="false">Recommendations</a>
+            </li>
+          </ul>
+        </div>
 
-    <div class="card-body userRecommended">
-        {% for recommend in user.recommended.all %}
-        <span>
-            <div style="display: inline-block;">
-            <img style="height: 100px;" src="{{ recommend.imgUrl }}">
-            <p>{{ recommend.title }}</p>
-            </div>
-        </span>
-        {% endfor %}
-    </div>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active p-3" id="one{{ user.id }}" role="tabpanel" aria-labelledby="one-tab">
+            <h5 class="card-title">{{ user.username }}</h5>
+            <p class="card-text">Favorite movies: {{ user.favorites.all|length }} Recommendations: {% if user.recommended.all|length > 1 %}<i class="fa fa-check-circle" style="color: green;"></i>{% else %}<i class="fa fa-close" style="color: red;"></i>{% endif %}</p>          
+          </div>
+          <div class="tab-pane fade p-3" id="two{{ user.id }}" role="tabpanel" aria-labelledby="two-tab">
+            <h5 class="card-title">{{ user.username }}'s favorite movies</h5>
 
+            <div class="container">
+              <div class="row">
+
+                {% for favorite in user.favorites.all %}
+                <div class="col-sm text-nowrap" style="text-align: center;">
+                  {{ favorite.title }}
+                  <br>
+                  <br>
+                  <img src='{{ favorite.imgUrl }}' style="width:150px;">
+                </div>
+                {% endfor %}
+
+                
+              </div>
+            </div>             
+
+
+          </div>
+          <div class="tab-pane fade p-3" id="three{{ user.id }}" role="tabpanel" aria-labelledby="three-tab">
+            {% if user.recommended.all|length > 1 %}
+            <h5 class="card-title">{{ user.username }}'s recommended movies</h5>
+            {% for recommend in user.recommended.all %}
+                <div class="col-sm text-nowrap" style="text-align: center;">
+                  {{ recommended.title }}
+                  <br>
+                  <br>
+                  <img src='{{ recommended.imgUrl }}' style="width:150px;">
+                </div>
+                {% endfor %}             
+            {% else %}
+            <h5 class="card-title">{{ user.username }} still does not have any recommendations!</h5>
+            {% endif %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
 </div>
-{% endfor %}
+
+
+
 
 
 {% endblock %}

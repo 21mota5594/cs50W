@@ -14,8 +14,13 @@ from .models import User, Movie
 # Create your views here.
 def index(request):
     user = request.user
-    favorites = user.favorites.values()
-    favNum = favorites.count()
+    try:
+        favorites = user.favorites.all()
+        favNum = favorites.count()
+    except AttributeError:
+        favorites = []
+        favNum = 0
+    
     rnge = 5 - favNum
 
     return render(request, 'movies/index.html', {
@@ -92,7 +97,7 @@ def movieSearch(request):
     if request.GET.get('q') is not None:
         query = request.GET.get('q')
 
-        url = "https://imdb8.p.rapidapi.com/auto-complete"
+        url = "https://imdb8.p.rapidapi.com/title/find"
 
         querystring = {"q": query}
 
@@ -105,15 +110,15 @@ def movieSearch(request):
 
         response = response.json()
 
-        title = response["d"][0]["l"]
-        img = response["d"][0]["i"]["imageUrl"]
-        stars = response["d"][0]["s"]
-        stars = stars.split(', ')
+        id = response["results"][0]["id"]
+        title = response["results"][0]["title"]
+        img = response["results"][0]["image"]["url"]
+        year = response["resulst"][0]["year"]
 
         movie = {}
         movie["title"] = title
         movie["img"] = img
-        movie["stars"] = stars
+        movie["year"] = year
         return render(request, "movies/movie.html", {
             "movie": movie,
             
@@ -149,3 +154,10 @@ def community(request):
     return render(request, "movies/community.html", {
         "users": User.objects.all()
     })
+
+def recommend(request):
+    user = request.user
+
+    favorites = user.favorites.all()
+
+    for favorite in favorites:
