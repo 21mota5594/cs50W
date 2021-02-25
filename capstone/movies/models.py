@@ -9,4 +9,5 @@ class User(AbstractUser):
 class Movie(models.Model):
     title = models.CharField(max_length=150)
     imgUrl = models.URLField(max_length=1500, default="https://sainfoinc.com/wp-content/uploads/2018/02/image-not-available.jpg")
+    imbdID = models.CharField(max_length=50, null=True, blank=True)
 

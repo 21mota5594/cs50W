@@ -1,6 +1,7 @@
 {% extends 'movies/layout.html' %}
 {% load static %}
 {% block body %}
+<input type="hidden" id="hiddenID" value="{{ movie.id }}">
 <div id="left">
     <div>
     <img class="img-thumbnail" id="movieImg" src="{{ movie.img }}">

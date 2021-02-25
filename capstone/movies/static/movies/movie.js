@@ -7,6 +7,7 @@ function favMovie() {
     const title = document.querySelector('#movieTitle');
     const img = document.querySelector('#movieImg');
     const url = img.src;
+    const id = document.querySelector('#hiddenID');
     let action = ''
     if(document.querySelector('#addButton').innerHTML === 'Add to favorites') {
         action = 'favorite'
@@ -20,7 +21,8 @@ function favMovie() {
         body: JSON.stringify({
             action: action,
             title: title,
-            url: url
+            url: url,
+            id: id
         })
     })
     .then(response => response.json())

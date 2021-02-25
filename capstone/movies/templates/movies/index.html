@@ -33,29 +33,31 @@
       </div>
 </div>
 </div>
-
+{% if not request.user.recommended.all %}
 <div id="recommendButton">
-  <button type="button" class="btn btn-outline-primary btn-block">I need recommendations!</button>
+  <form id="recommendForm" method="GET" action="{% url 'recommend' %}">
+    <button type="submit" class="btn btn-outline-primary btn-block">I need recommendations!</button>
+  </form>
 </div>
 
+{% else %}
 <div id="recommendations">
     <h3 class="text-muted" id="movieContainerTitle">Your recommendations</h3>
-
     <div class="container-fluid">
       <div class="row">
-      {% for i in range %}
-          <div class="col">
-            <div class="card">
-              <img src="https://images.hindustantimes.com/rf/image_size_630x354/HT/p2/2020/07/15/Pictures/_b6b0bf16-c67e-11ea-be81-f7b2e356804f.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">{{ title }}</h5>
-                <a href="#" class="btn btn-primary">Remove</a>
-              </div>
-            </div>
-            </div>
-      {% endfor %}
-      </div>
+      {% for recommend in recommended %}
+      <div class="col">
+        <div id="movieCard" class="card">
+          <img src="{{ recommend.imgUrl }}" id="favMovieImg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h6 class="card-title">{{ recommend.title }}</h6>
+          </div>
+        </div>
+        </div>
+        {% endfor %}
     </div>
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block script %}

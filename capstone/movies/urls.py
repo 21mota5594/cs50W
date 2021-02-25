@@ -9,6 +9,7 @@ urlpatterns = [
     path("register", views.register, name="register"),
     path("movieSearch", views.movieSearch, name="movieSearch"),
     path("community", views.community, name="community"),
+    path("recommend", views.recommend, name="recommend"),
 
     path("favorite", views.favorite, name="favorite"),
     path("removeFavorite/<str:title>", views.removeFavorite, name="removeFavorite")

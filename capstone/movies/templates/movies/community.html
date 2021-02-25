@@ -61,14 +61,22 @@
           <div class="tab-pane fade p-3" id="three{{ user.id }}" role="tabpanel" aria-labelledby="three-tab">
             {% if user.recommended.all|length > 1 %}
             <h5 class="card-title">{{ user.username }}'s recommended movies</h5>
-            {% for recommend in user.recommended.all %}
+
+            <div class="container">
+              <div class="row">
+
+                {% for recommend in user.recommended.all %}
                 <div class="col-sm text-nowrap" style="text-align: center;">
-                  {{ recommended.title }}
+                  {{ recommend.title }}
                   <br>
                   <br>
-                  <img src='{{ recommended.imgUrl }}' style="width:150px;">
+                  <img src='{{ recommend.imgUrl }}' style="width:150px;">
                 </div>
-                {% endfor %}             
+                {% endfor %}
+
+                
+              </div>
+            </div>                        
             {% else %}
             <h5 class="card-title">{{ user.username }} still does not have any recommendations!</h5>
             {% endif %}
