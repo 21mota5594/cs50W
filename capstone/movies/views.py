@@ -25,7 +25,7 @@ def index(request):
 
     try:
         recommended = user.recommended.all()
-    except User.DoesNotExist:
+    except AttributeError:
         recommended = {}
     return render(request, 'movies/index.html', {
         "range": range(rnge),
@@ -85,20 +85,6 @@ def register(request):
         return render(request, "movies/register.html")
 
 def movieSearch(request):
-    movie = {}
-    movie["title"] = "Gladiator"
-    movie["img"] = "https://m.media-amazon.com/images/M/MV5BMDliMmNhNDEtODUyOS00MjNlLTgxODEtN2U3NzIxMGVkZTA1L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg"
-    movie["stars"] = ["Russell Crowe", "Joaquin Phoenix"]
-
-    if Movie.objects.filter(title=movie["title"]).exists():
-            movieObj = Movie.objects.get(title=movie["title"])
-    else:
-        movieObj = ""
-    return render(request, "movies/movie.html", {
-        "movie": movie,
-        "moveiObj": movieObj
-        
-    })
     if request.GET.get('q') is not None:
         query = request.GET.get('q')
 
@@ -118,7 +104,7 @@ def movieSearch(request):
         id = response["results"][0]["id"]
         title = response["results"][0]["title"]
         img = response["results"][0]["image"]["url"]
-        year = response["result"][0]["year"]
+        year = response["results"][0]["year"]
 
         movie = {}
         movie["title"] = title
@@ -139,13 +125,11 @@ def favorite(request):
         title = data.get('title')
         url = data.get('url')
         id = data.get('id')
-        id = id.split("/")
-        id = id[2]
         user = request.user
         if Movie.objects.filter(title=title).exists():
             movie = Movie.objects.get(title=title)
         else:
-            Movie.objects.create(title=title, imgUrl=url, imbdID=id)
+            movie = Movie.objects.create(title=title, imgUrl=url, imbdID=id)
         if action == "favorite":
             user.favorites.add(movie)
         else:
@@ -170,8 +154,9 @@ def recommend(request):
     recID = []
 
     for favorite in favorites:
-        favorite.imbdID = favorite.imbdID.split("/")
-        favorite.imbdID = favorite.imbdID[2]
+        if "/" in favorite.imbdID:
+            favorite.imbdID = favorite.imbdID.split("/")
+            favorite.imbdID = favorite.imbdID[2]
         url = "https://imdb8.p.rapidapi.com/title/get-more-like-this"
 
         querystring = {"tconst":favorite.imbdID,"currentCountry":"US","purchaseCountry":"US"}

@@ -4,10 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 function favMovie() {
-    const title = document.querySelector('#movieTitle');
+    const title = document.querySelector('#movieTitle').innerHTML;
     const img = document.querySelector('#movieImg');
     const url = img.src;
-    const id = document.querySelector('#hiddenID');
+    const id = document.querySelector('#hiddenID').value.split('/')[2];
+    console.log(`${title} ${id}`);
+    console.log(id)
     let action = ''
     if(document.querySelector('#addButton').innerHTML === 'Add to favorites') {
         action = 'favorite'
